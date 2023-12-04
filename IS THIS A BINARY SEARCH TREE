@@ -1,0 +1,36 @@
+""" Node is defined as
+class node:
+  def __init__(self, data):
+      self.data = data
+      self.left = None
+      self.right = None
+"""
+
+def check_binary_search_tree_(root):
+    # Initialize a list to store nodes along with their minimum and maximum valid values
+    nodes = [{"node": root, "mini": 0, "maxi": 10e4}]
+    
+    # Iterate through the nodes list until it is empty
+    while nodes:
+        # Get the first node from the list
+        node = nodes[0]["node"]
+        mini = nodes[0]["mini"]
+        maxi = nodes[0]["maxi"]
+        
+        # Remove the processed node from the list
+        nodes.remove(nodes[0])
+        
+        # Check if the current node's data is outside the valid range
+        if node.data > maxi or node.data < mini:
+            return False
+        
+        # If the left child exists, add it to the list with updated valid range
+        if node.left:
+            nodes.append({"node": node.left, "mini": mini, "maxi": node.data - 1})
+        
+        # If the right child exists, add it to the list with updated valid range
+        if node.right:
+            nodes.append({"node": node.right, "mini": node.data + 1, "maxi": maxi})
+    
+    # If the iteration completes without finding any out-of-range values, the tree is a valid BST
+    return True
